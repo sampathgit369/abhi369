@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="2cb0825c-8146-4e1e-a5fa-53c6c0d1bfc9" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="0f25dc1b-65f9-4312-8012-390fcd555e07" />
+	<flow name="newwFlow1" doc:id="b68b2ce7-4396-4692-93ec-2912e2c59a21">
+		<file:listener doc:name="On New or Updated File" doc:id="b57e97aa-7877-4df8-b1d5-146429a044b1" config-ref="File_Config" directory="C:\Users\admin\OneDrive\Desktop\New folder" moveToDirectory="C:\Users\admin\OneDrive\Desktop\kkkk">
+			<scheduling-strategy>
+				<fixed-frequency frequency="1" timeUnit="MINUTES" />
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="e201033c-6ef8-4ce9-8a55-4a75c79e482d" message="#[payload]" />
+		<file:rename doc:name="Rename" doc:id="b86baf45-07a9-4589-99f7-aff07b290082" config-ref="File_Config" path="C:\Users\admin\OneDrive\Desktop\kkkk" to="C:\Users\admin\OneDrive\Desktop\biggg"/>
+		<file:copy doc:name="Copy" doc:id="296e3972-65e2-456f-ba73-e29e0b13b063" sourcePath="C:\Users\admin\OneDrive\Desktop\kkkk" targetPath="C:\Users\admin\OneDrive\Desktop\New folder" renameTo="bbbb"/>
+		<file:move doc:name="Move" doc:id="db5c2f6f-24c0-4ab6-ab95-a15b7c9f408a" config-ref="File_Config" sourcePath="C:\Users\admin\OneDrive\Desktop\kkkk" targetPath="C:\Users\admin\OneDrive\Desktop\muleone"/>
+		<file:delete doc:name="Delete" doc:id="5316cb79-936a-4341-b21b-12223b6ee256" config-ref="File_Config" path="#[payload]"/>
+	</flow>
+</mule>
